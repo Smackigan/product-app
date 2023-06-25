@@ -23,8 +23,18 @@ class DB
         return $conn;
     }
 
-    public function getConnection()
-        {
-            return $this->conn;
+    public function getConnection($sql)
+    {
+        if (!$this->conn) {
+            die('No DB connection');
         }
+    
+        $stmt = mysqli_prepare($this->conn, $sql);
+    
+        if (!$stmt) {
+            die('Failed to prepare stmt: ' . mysqli_error($this->conn));
+        }
+        
+        return $stmt;
+    }
 }

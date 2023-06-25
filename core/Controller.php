@@ -2,7 +2,11 @@
 
 class Controller
 {
-    protected $view;
+    protected $conn;
 
-    protected function view
+    public function __construct()
+    {
+        $this->conn = new DB();
+    }
+
 }

@@ -11,7 +11,7 @@ productType.addEventListener('change', function() {
 
     let selectedOption = productType.value;
 
-    let selectedOptionField = document.getElementById(selectedOption);
+    let selectedOptionField = document.getElementById(selectedOption); // shpw option
     if (selectedOptionField) {
         selectedOptionField.classList.remove('d-none');
     }
