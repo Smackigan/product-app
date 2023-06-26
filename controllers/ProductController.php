@@ -11,58 +11,56 @@ require_once('../models/Validator.php');
 class ProductController extends Product
 {
 
-    public function createNewProduct() {
+    public function createNewProduct()
+    {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
             $sku = trim($_POST['sku']);
-            $name = trim($_POST['name']);
-        
+
             // Validate
             $validator = new Validator();
-            $skuErrors = $validator->validateSku($sku);
             $uniqueSkuError = $validator->validateUniqueSku($sku);
-            $nameErrors = $validator->validateName($name);
-        
-            if (empty($skuErrors) && empty($uniqueSkuError) && empty($nameErrors)) {
-        
-            $db = new DB();
-            $sql = "INSERT INTO products (sku, name) VALUES (?, ?)";
-            $stmt = $db->getConnection($sql);
-        
-            mysqli_stmt_bind_param($stmt, "ss", $sku, $name);
-            mysqli_stmt_execute($stmt);
-        
-            // Check if the data was inserted successfully
-            if (mysqli_stmt_affected_rows($stmt) > 0) {
-                header('Location: ../views/home.view.php');
-                exit();
-            } else {
-                echo "Error inserting data";
-            }
-        
-            // Close the prepared statement
-            mysqli_stmt_close($stmt);
-        
-            } else {  
-                    
-                header("Location: ../views/add_product.view.php");
+            $skuErrors = $validator->validateSku($sku);
+            
+            header('Content-type: application/json');
 
-                $_SESSION['skuErrors'] = $skuErrors;
-                $_SESSION['uniqueSkuError'] = $uniqueSkuError;
-                $_SESSION['nameErrors'] = $nameErrors;
+            if (empty($uniqueSkuError) && (empty($skuErrors)) ) {
+                // valid -> continue with inserting data
+                $db = new DB();
+                $sql = "INSERT INTO products (sku) VALUES (?)";
+                $stmt = $db->getConnection($sql);
 
-                exit();
-        
-            }
-        
+                mysqli_stmt_bind_param($stmt, "s", $sku);
+                mysqli_stmt_execute($stmt);
+
+                // Close the prepared statement
+                mysqli_stmt_close($stmt);
+
+                $response = array('success' => true, 'message' => '');
+                error_log(print_r($response, true));
+                echo json_encode($response);
+        } else {
+            // there are validation errors
+            $errors = array_merge($uniqueSkuError, $skuErrors);
+            // $errorMessage = $errors[0]; 
+            $skuErrorMessage = '';
+            $nameErrorMessage = '';
+
+            if (!empty($uniqueSkuError)) {
+                $skuErrorMessage = $uniqueSkuError['sku_unique'];
+            } elseif (!empty($skuErrors)) {
+                $skuErrorMessage = $skuErrors['sku_empty'] ?? $skuErrors['sku_length'];
+            } 
+
+            
+            $response = array('success' => false, 'message' => $skuErrorMessage);
+            error_log(print_r($response, true));
+            echo json_encode($response);
         }
     }
-
+}
 }
 
 $productController = new ProductController();
 $productController->createNewProduct();
-
-
-

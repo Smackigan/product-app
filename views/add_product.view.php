@@ -24,7 +24,7 @@ session_start();
                     <h2 class="">Product Add</h2>
 
                     <div class="btns">
-                        <a href="" type="button"><button id="save-btn">Save</button></a>
+                        <a href="#" type="button"><button id="save-btn" onclick="">Save</button></a>
                         <a href="#" type="button"><button id="cancel-btn">Cancel</button></a>
                     </div>
                 </div>
@@ -35,50 +35,14 @@ session_start();
 
             <div class="mb-3 d-flex">
                 <label class="form-label col-2" for="sku">SKU</label>
-                <input class="form-control w-25" type="text" id="sku" name="sku" required>
-
-                <!-- error msg for sku -->
-                <?php
-                if (isset($_SESSION['skuErrors'])) {
-                    $skuErrors = $_SESSION['skuErrors'];
-
-                    unset($_SESSION['skuErrors']);
-
-                    if (is_array($skuErrors) && !empty($skuErrors)) {
-                        foreach ($skuErrors as $error) {
-                            echo '<div class="text-danger">' . $error . '</div>';
-                        }
-                    }
-                }
-                if (isset($_SESSION['uniqueSkuError'])) {
-                    $uniqueSkuError = $_SESSION['uniqueSkuError'];
-
-                    unset($_SESSION['uniqueSkuError']);
-
-                    if (!empty($uniqueSkuError)) {
-                        echo '<div class="text-danger">' . $uniqueSkuError . '</div>';
-                    }
-                }
-
-                ?>
+                <input class="form-control w-25" type="text" id="sku" name="sku">
+                <div id="sku-error" class="sku-error-message"></div>
             </div>
 
             <div class="mb-3 d-flex">
                 <label class="form-label col-2" for="name">Name</label>
                 <input class="form-control w-25" type="text" id="name" name="name">
-                <?php
-                if (isset($_SESSION['nameErrors'])) {
-                    $nameErrors = $_SESSION['nameErrors'];
-
-                    unset($_SESSION['nameErrors']);
-
-                    if (!empty($nameErrors)) {
-                        foreach ($nameErrors as $error) {
-                            echo '<div class="text-danger">' . $error . '</div>';
-                    }
-                    }
-                }
-                ?>
+                <div id="name-error" class="name-error-message"></div>
             </div>
 
             <div class="mb-3 d-flex">

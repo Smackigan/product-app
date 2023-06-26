@@ -10,6 +10,8 @@ class Validator
 
     public function validateUniqueSku($sku)
     {
+        $uniqueSkuError = [];
+
         $db = new DB();
         $sql = 'SELECT COUNT(*) FROM products WHERE sku = ?';
         $stmt = $db->getConnection($sql);
@@ -20,10 +22,10 @@ class Validator
         mysqli_stmt_close($stmt);
     
         if ($count > 0) {
-            return 'SKU has already been used';
+            $uniqueSkuError['sku_unique'] = 'SKU must be unique';
         }
         
-        return ''; 
+        return $uniqueSkuError; 
     }
     
     public function validateSku($sku)
@@ -31,9 +33,9 @@ class Validator
         $skuErrors = [];
 
         if (empty($sku)) {
-            $skuErrors[] = 'Please, provide the SKU';
-        } elseif (strlen($sku) > 30) {
-            $skuErrors[] = 'SKU must be less than 30 characters long';
+            $skuErrors['sku_empty'] = 'Please, provide the SKU!!!';
+        } elseif (strlen($sku) > 10) {
+            $skuErrors['sku_length'] = 'SKU must be less than 10 characters long';
         }
 
         return $skuErrors;
@@ -44,11 +46,11 @@ class Validator
         $nameErrors = [];
 
         if (empty($name)) {
-            $nameErrors[] = 'Please, provide the name';
+            $nameErrors['name_empty'] = 'Please, provide the name';
         } elseif (strlen($name) > 10) {
-            $nameErrors[] = 'Product name is too long';
+            $nameErrors['name_length'] = 'Product name is too long';
         } elseif (!is_string($name)) {
-            $nameErrors[] = 'Please, provide the data of indicated type';
+            $nameErrors['name_string'] = 'Please, provide the data of indicated type';
         }
         return $nameErrors;
     }
