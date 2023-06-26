@@ -22,29 +22,42 @@ productType.addEventListener('change', function () {
 const skuInput = document.getElementById('sku');
 const nameInput = document.getElementById('name');
 const saveBtn = document.getElementById('save-btn');
-const errorContainer = document.getElementById('sku-error');
+const skuErrorContainer = document.getElementById('sku-error');
+const nameErrorContainer = document.getElementById('name-error');
 
 // Add a click event listener to the Save button
 saveBtn.addEventListener('click', function (e) {
     e.preventDefault(); // Prevent the default button behavior
 
-    // Get the SKU value
+    // Get the SKU and name values
     const sku = skuInput.value.trim();
+    const name = nameInput.value.trim();
 
     // Perform client-side validation
+    let hasErrors = false;
+
     if (sku === '') {
-        errorContainer.textContent = 'Please, provide the SKU';
-        return;
+        skuErrorContainer.textContent = 'Please provide the SKU';
+        hasErrors = true;
+    } else {
+        skuErrorContainer.textContent = '';
     }
 
+    if (name === '') {
+        nameErrorContainer.textContent = 'Please provide the name';
+        hasErrors = true;
+    } else {
+        nameErrorContainer.textContent = '';
+    }
 
-    // Clear any previous error message
-    errorContainer.textContent = '';
+    if (hasErrors) {
+        return;
+    }
 
     // Create a new XMLHttpRequest object
     const xhr = new XMLHttpRequest();
 
-    // Configure AJAX request
+    // AJAX request
     xhr.open('POST', '../controllers/ProductController.php', true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
@@ -55,15 +68,29 @@ saveBtn.addEventListener('click', function (e) {
                 const response = JSON.parse(xhr.responseText);
 
                 if (response.success) {
-                    // Data was successfully inserted
+                    // Data successfully inserted
                     window.location.href = '../views/home.view.php';
                 } else {
-                    // Display the error message to the user
-                    const skuErrorMessage = response.message;
-                    errorContainer.textContent = skuErrorMessage;
+                    // Display error messages
+                    const errors = response.errors;
+    
+                    // Clear previous error messages
+                    skuErrorContainer.textContent = '';
+                    nameErrorContainer.textContent = '';
+    
+                    // Update SKU error element
+                    if (errors.skuError) {
+                        skuErrorContainer.textContent = errors.skuError;
+                    }
+    
+                    // Update name error element
+                    if (errors.nameError) {
+                        nameErrorContainer.textContent = errors.nameError;
+                    }
                 }
             } else {
                 console.error('Error:', xhr.status);
+                console.log(xhr.responseText);
             }
         }
     };
@@ -71,6 +98,7 @@ saveBtn.addEventListener('click', function (e) {
     // Prepare the form data to send
     const formData = new FormData();
     formData.append('sku', sku);
+    formData.append('name', name);
 
     // Send AJAX request with the form data
     xhr.send(formData);

@@ -46,7 +46,7 @@ class Validator
         $nameErrors = [];
 
         if (empty($name)) {
-            $nameErrors['name_empty'] = 'Please, provide the name';
+            $nameErrors['name_empty'] = 'Please, provide the name!!!';
         } elseif (strlen($name) > 10) {
             $nameErrors['name_length'] = 'Product name is too long';
         } elseif (!is_string($name)) {
