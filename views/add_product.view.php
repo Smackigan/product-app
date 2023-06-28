@@ -47,7 +47,9 @@ session_start();
 
             <div class="mb-3 d-flex">
                 <label class="form-label col-2" for="price">Price ($)</label>
-                <input class="form-control w-25" type="number" id="price">
+                <input class="form-control w-25" type="number" id="price" name="price">
+                <div id="price-error" class="price-error-message"></div>
+
             </div>
 
             <div class="mb-3 d-flex">
@@ -58,6 +60,7 @@ session_start();
                     <option value="book">Book</option>
                     <option value="furniture">Furniture</option>
                 </select>
+                <div id="product-error" class="product-error-message"></div>
             </div>
 
             <br>
@@ -66,7 +69,15 @@ session_start();
                 <div id="DVD" class="d-none mb-3 d-flex row option">
                     <p>Please, provide size of DVD in MB</p>
                     <label class="form-label col-2">Size (MB)</label>
-                    <input class="form-control w-25" name="size" type="text" id="size">
+                    <input class="form-control w-25" type="number" id="dvd" name="dvd">
+                    <div id="size-error" class="size-error-message"></div>
+                </div>
+
+                <div id="book" class="d-none mb-3 d-flex row option">
+                    <p>Please, provide weigth of the book</p>
+                    <label class="form-label col-2">Weight (KG)</label>
+                    <input class="form-control w-25" name="weight" type="number" id="weight">
+                    <div id="weight-error" class="weight-error-message"></div>
                 </div>
 
                 <div id="furniture" class="d-none option">
@@ -74,22 +85,20 @@ session_start();
                     <div class="mb-3 d-flex row">
                         <label class="form-label col-2">Height (CM)</label>
                         <input type="number" name="height" class="form-control w-25" id="height">
+                        <div id="height-error" class="height-error-message"></div>
                     </div>
                     <div class="mb-3 d-flex row">
                         <label class="form-label col-2">Width (CM)</label>
                         <input type="number" name="width" class="form-control w-25" id="width">
+                        <div id="width-error" class="width-error-message"></div>
                     </div>
                     <div class="mb-3 d-flex row">
                         <label class="form-label col-2">Length (CM)</label>
                         <input type="number" name="length" class="form-control w-25" id="length">
+                        <div id="length-error" class="length-error-message"></div>
                     </div>
                 </div>
 
-                <div id="book" class="d-none mb-3 d-flex row option">
-                    <p>Please, provide weigth of the book</p>
-                    <label class="form-label col-2">Weight (KG)</label>
-                    <input class="form-control w-25" name="weight" type="text" id="weight">
-                </div>
             </div>
 
 

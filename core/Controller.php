@@ -1,5 +1,7 @@
 <?php
 
+require_once('../database/DB.php');
+
 class Controller
 {
     protected $conn;
