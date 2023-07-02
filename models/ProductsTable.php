@@ -1,5 +1,7 @@
 <?php
 
+use Models\Product;
+
 require_once('../database/DB.php');
 
 // opertions with DB
@@ -14,14 +16,19 @@ class ProductsTable
     }
 
     // Save product to DB
-    public function insertProduct($sku, $name, $price)
+    public function insertProduct(Product $product)
     {
+        $sku = $product->getSku();
+        $name = $product->getName();
+        $price = $product->getPrice();
+        $value = $product->getValue();
+
         // Add product to table
         $db = $this->conn;
-        $sql = "INSERT INTO products (sku, name, price) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO products (sku, name, price, value) VALUES (?, ?, ?, ?)";
         $stmt = $db->getConnection($sql);
 
-        mysqli_stmt_bind_param($stmt, "ssi", $sku, $name, $price);
+        mysqli_stmt_bind_param($stmt, "ssis", $sku, $name, $price, $value);
         mysqli_stmt_execute($stmt);
 
         // Close the prepared statement

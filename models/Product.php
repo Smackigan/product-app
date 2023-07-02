@@ -4,30 +4,17 @@ namespace Models;
 
 abstract class Product
 {
-    private $id;
     private $sku;
     private $name;
     private $price;
-    private $product;
-    private $value;
+    public $value;
 
-    public function __construct()
+    public function __construct($sku, $name, $price)
     {
-        $this->sku = '';
-        $this->name = '';
-        $this->price = '';
-        $this->product = '';
+        $this->sku = $sku;
+        $this->name = $name;
+        $this->price = $price;
         $this->value = '';
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     public function getSku()
@@ -60,5 +47,21 @@ abstract class Product
         $this->price = $price;
     }
 
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
     
+    public function setData($data)
+    {
+        $this->setSku($data['sku']);
+        $this->setName($data['name']);
+        $this->setPrice($data['price']);
+    }
+
 }
