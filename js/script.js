@@ -19,6 +19,11 @@ productType.addEventListener('change', function () {
   // formData.append('productType', selectedOption);
 
 });
+const cancelBtn = document.getElementById('cancel-btn');
+cancelBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  window.location.href = 'home.view.php';
+});
 
 
 // Validation and AJAX request
@@ -152,14 +157,19 @@ saveBtn.addEventListener('click', function (e) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        console.log(xhr.responseText);
+        // console.log(xhr.responseText);
         const response = JSON.parse(xhr.responseText);
-
+        
         if (response.success) {
           // Data successfully inserted
+          console.log('Error success:', response);
           window.location.href = '../views/home.view.php';
         } else {
+
+          
           // Display error messages
+          console.log('Error response:', response);
+          console.log('Errors:', response.errors);
           const errors = response.errors;
 
           // Clear previous error messages
@@ -173,37 +183,37 @@ saveBtn.addEventListener('click', function (e) {
           document.getElementById('length-error').textContent = ''; 
 
           // Update SKU error element
-          if (errors.skuError) {
-            skuErrorContainer.textContent = errors.skuError;
+          if (errors.sku) {
+            skuErrorContainer.textContent = errors.sku;
           }
 
           // Update name error element
-          if (errors.nameError) {
-            nameErrorContainer.textContent = errors.nameError;
+          if (errors.name) {
+            nameErrorContainer.textContent = errors.name;
           }
 
           // Update price error element
-          if (errors.priceError) {
-            priceErrorContainer.textContent = errors.priceError;
+          if (errors.price) {
+            priceErrorContainer.textContent = errors.price;
           }
 
           // Update product type error element
-          if (errors.dvdError) {
-            document.getElementById('size-error').textContent = errors.dvdError;
+          if (errors.size) {
+            document.getElementById('size-error').textContent = errors.size;
           }
 
-          if (errors.bookError) {
-            document.getElementById('weight-error').textContent = errors.bookError;
+          if (errors.weight) {
+            document.getElementById('weight-error').textContent = errors.weight;
           }
 
-          if (errors.heightError) {
-            document.getElementById('height-error').textContent = errors.heightError;
+          if (errors.height) {
+            document.getElementById('height-error').textContent = errors.height;
           }
-          if (errors.widthError) {
-            document.getElementById('width-error').textContent = errors.widthError;
+          if (errors.width) {
+            document.getElementById('width-error').textContent = errors.width;
           }
-          if (errors.lengthError) {
-            document.getElementById('length-error').textContent = errors.lengthError;
+          if (errors.length) {
+            document.getElementById('length-error').textContent = errors.length;
           }
 
         }
@@ -214,8 +224,14 @@ saveBtn.addEventListener('click', function (e) {
     }
   };
 
+  console.log('Ready state:', xhr.readyState);
+  console.log('Status:', xhr.status);
   // Send AJAX request with the form data
   xhr.send(formData);
 });
 
+// MASS DELETE function
+const deleteBtn = document.getElementById('delete-product-btn');
+deleteBtn.addEventListener('click', function() {
 
+})

@@ -17,7 +17,7 @@ class Validator
         $isUnique = $productsTable->isSkuUnique($sku);
 
         if (!$isUnique) {
-            $uniqueSkuError['sku_unique'] = 'SKU must be unique';
+            $uniqueSkuError['sku'] = 'SKU must be unique';
         }
 
         return $uniqueSkuError;
@@ -28,9 +28,9 @@ class Validator
         $skuErrors = [];
 
         if (empty($sku)) {
-            $skuErrors['sku_empty'] = 'Please provide the SKU';
+            $skuErrors['sku'] = 'Please provide the SKU';
         } elseif (strlen($sku) > 10) {
-            $skuErrors['sku_length'] = 'SKU must be less than 10 characters long';
+            $skuErrors['sku'] = 'SKU must be less than 10 characters long';
         }
 
         return $skuErrors;
@@ -41,11 +41,11 @@ class Validator
         $nameErrors = [];
 
         if (empty($name)) {
-            $nameErrors['name_empty'] = 'Please provide the name';
+            $nameErrors['name'] = 'Please provide the name';
         } elseif (strlen($name) > 10) {
-            $nameErrors['name_length'] = 'Product name is too long';
+            $nameErrors['name'] = 'Product name is too long';
         } elseif (!is_string($name)) {
-            $nameErrors['name_string'] = 'Please provide the data of indicated type';
+            $nameErrors['name'] = 'Please provide the data of indicated type';
         }
         return $nameErrors;
     }
@@ -55,13 +55,13 @@ class Validator
         $priceErrors = [];
 
         if (empty($price)) {
-            $priceErrors['price_empty'] = 'Please provide the price';
+            $priceErrors['price'] = 'Please provide the price';
         } elseif (!is_numeric($price)) {
-            $priceErrors['price_invalid'] = 'Pleas provide a valid numeric price';
+            $priceErrors['price'] = 'Pleas provide a valid numeric price';
         } elseif ($price <= 0) {
-            $priceErrors['price_negative'] = 'Price must be greater than zero';
+            $priceErrors['price'] = 'Price must be greater than zero';
         } elseif ($price > 999999999999.99) {
-            $priceErrors['price_length'] = 'Price is too big';
+            $priceErrors['price'] = 'Price is too big';
         }
         return $priceErrors;
     }
@@ -70,28 +70,28 @@ class Validator
 class ProductTypeValidator
 {
 
-    public function validateProduct($data)
-    {
-        $productType = $data['productType'];
-        $productErrors = [];
+    // public function validateProduct($data)
+    // {
+    //     $productType = $data['productType'];
+    //     $productErrors = [];
 
-        if ($productType === 'DVD') {
-            $size = $data['dvd'];
-            $sizeErrors = $this->validateSize($size);
-            $productErrors = array_merge($productErrors, $sizeErrors);
-        } elseif ($productType === 'book') {
-            $weight = $data['weight'];
-            $weightErrors = $this->validateWeight($weight);
-            $productErrors = array_merge($productErrors, $weightErrors);
-        } elseif ($productType === 'furniture') {
-            $height = $data['height'];
-            $width = $data['width'];
-            $length = $data['length'];
-            $dimensionErrors = $this->validateDimensions($height, $width, $length);
-            $productErrors = array_merge($productErrors, $dimensionErrors);
-        }
-        return $productErrors;
-    }
+    //     if ($productType === 'DVD') {
+    //         $size = $data['dvd'];
+    //         $sizeErrors = $this->validateSize($size);
+    //         $productErrors = array_merge($productErrors, $sizeErrors);
+    //     } elseif ($productType === 'book') {
+    //         $weight = $data['weight'];
+    //         $weightErrors = $this->validateWeight($weight);
+    //         $productErrors = array_merge($productErrors, $weightErrors);
+    //     } elseif ($productType === 'furniture') {
+    //         $height = $data['height'];
+    //         $width = $data['width'];
+    //         $length = $data['length'];
+    //         $dimensionErrors = $this->validateDimensions($height, $width, $length);
+    //         $productErrors = array_merge($productErrors, $dimensionErrors);
+    //     }
+    //     return $productErrors;
+    // }
 
     public function validateSize($size)
     {
@@ -99,13 +99,13 @@ class ProductTypeValidator
 
         // Validation rule for size
         if (empty($size)) {
-            $sizeErrors['size_empty'] = 'Please provide the size';
+            $sizeErrors['size'] = 'Please provide the size';
         } elseif (strlen($size) > 10) {
-            $sizeErrors['size_length'] = 'Size is too big';
+            $sizeErrors['size'] = 'Size is too big';
         } elseif ($size <= 0) {
-            $sizeErrors['size_negative'] = 'Size must be greater than zero';
+            $sizeErrors['size'] = 'Size must be greater than zero';
         } elseif (!is_numeric($size)) {
-            $sizeErrors['size_invalid'] = 'Please provide a valid numeric data';
+            $sizeErrors['size'] = 'Please provide a valid numeric data';
         }
         return $sizeErrors;
     }
@@ -116,13 +116,13 @@ class ProductTypeValidator
 
         // Validation rule for weight
         if (empty($weight)) {
-            $weightErrors['weight_empty'] = 'Please provide the weight';
+            $weightErrors['weight'] = 'Please provide the weight';
         } elseif (strlen($weight) > 10) {
-            $weightErrors['weight_length'] = 'Weight is too big';
+            $weightErrors['weight'] = 'Weight is too big';
         } elseif ($weight <= 0) {
-            $weightErrors['weight_negative'] = 'Weight must be greater than zero';
+            $weightErrors['weight'] = 'Weight must be greater than zero';
         } elseif (!is_numeric($weight)) {
-            $weightErrors['weight_invalid'] = 'Please provide a valid numeric data';
+            $weightErrors['weight'] = 'Please provide a valid numeric data';
         }
         return $weightErrors;
     }

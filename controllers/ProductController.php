@@ -28,98 +28,77 @@ class ProductController extends Controller
             $productType = $_POST['productType'];
             $data = $_POST;
 
+            $allErrors = [];
             // Validate
             $validator = new Validator();
-            $uniqueSkuError = $validator->validateUniqueSku($sku);
-            $skuErrors = $validator->validateSku($sku);
-            $nameErrors = $validator->validateName($name);
-            $priceErrors = $validator->validatePrice($price);
+            $allErrors = array_merge($allErrors, $validator->validateUniqueSku($sku));
+            $allErrors = array_merge($allErrors, $validator->validateSku($sku));
+            $allErrors = array_merge($allErrors, $validator->validateName($name));
+            $allErrors = array_merge($allErrors, $validator->validatePrice($price));
 
+            $productTypeValidator = new ProductTypeValidator();
+
+            // Validation and errors based on the selected product type
+            switch ($productType) {
+                case 'DVD':
+                    $size = $_POST['size'];
+                    $allErrors = array_merge($allErrors, $productTypeValidator->validateSize($size));
+                    $errors['dvdError'] = $sizeErrors['size'] ?? '';
+                    break;
+                case 'book':
+                    $weight = $_POST['weight'];
+                    $allErrors = array_merge($allErrors, $productTypeValidator->validateWeight($weight));
+                    $errors['bookError'] = $weightErrors['weight'] ?? '';
+                    break;
+                case 'furniture':
+                    $height = $_POST['height'];
+                    $width = $_POST['width'];
+                    $length = $_POST['length'];
+                    $allErrors = array_merge($allErrors, $productTypeValidator->validateDimensions($height, $width, $length));
+                    $errors['heightError'] = $dimensionErrors['height'] ?? '';
+                    $errors['widthError'] = $dimensionErrors['width'] ?? '';
+                    $errors['lengthError'] = $dimensionErrors['length'] ?? '';
+                    break;
+                default:
+                    // Invalid product type
+                    $errors['productTypeError'] = 'Invalid product type'; // CHECK!
+                    break;
+            }
+
+            // print_r($allErrors);
             header('Content-type: application/json');
 
-            if (empty($uniqueSkuError) && (empty($skuErrors)) && (empty($nameErrors)) && (empty($priceErrors)) && (empty($productErrors))) {
-                
+            if (empty($allErrors)) {
+
                 if ($productType === 'DVD') {
                     $product = new DVD($sku, $name, $price);
-                    $product->setData($data);
                 } elseif ($productType === 'book') {
                     $product = new Book($sku, $name, $price);
-                    $product->setData($data);
                 } elseif ($productType === 'furniture') {
                     $product = new Furniture($sku, $name, $price);
+                }
+
+                if ($product) {
                     $product->setData($data);
                 }
-                
+
                 // Insert data to the DB
                 $productsTable = new ProductsTable();
                 $productsTable->insertProduct($product);
 
+                // prepare success response
                 $response = array('success' => true, 'message' => '');
                 error_log(print_r($response, true));
+                error_log(json_encode($response));
+
                 echo json_encode($response);
-            
-            
-            
-            
-            
+
             } else {
-                // there are validation errors
-                $errors = array(
-                    'skuError' => (!empty($uniqueSkuError) || !empty($skuErrors)) ? ($uniqueSkuError['sku_unique'] ??
-                        $skuErrors['sku_length'] ??
-                        $skuErrors['sku_empty'] ??
-                        '') : '',
-                    'nameError' => (!empty($nameErrors)) ? ($nameErrors['name_empty'] ??
-                        $nameErrors['name_length'] ??
-                        $nameErrors['name_string'] ??
-                        '') : '',
-                    'priceError' => (!empty($priceErrors)) ? ($priceErrors['price_empty'] ??
-                        $priceErrors['price_invalid'] ??
-                        $priceErrors['price_negative'] ??
-                        $priceErrors['price_length'] ??
-                        '') : ''
-                );
 
-                $productTypeValidator = new ProductTypeValidator();
+                $response = array('success' => false, 'errors' => $allErrors);
+                // error_log(print_r($response, true));
+                // error_log(json_encode($response));
 
-                // Errors based on the selected product type
-                switch ($productType) {
-                    case 'DVD':
-                        $size = $_POST['size'];
-                        $dvdErrors = $productTypeValidator->validateSize($size);
-                        $errors['dvdError'] = (!empty($dvdErrors)) ? ($dvdErrors['size_empty'] ??
-                            $dvdErrors['size_length'] ??
-                            $dvdErrors['size_negative'] ??
-                            $dvdErrors['size_invalid'] ??
-                            '') : '';
-                        break;
-                    case 'book':
-                        $weight = $_POST['weight'];
-                        $bookErrors = $productTypeValidator->validateWeight($weight);
-                        $errors['bookError'] = (!empty($bookErrors)) ? ($bookErrors['weight_empty'] ??
-                            $bookErrors['weight_length'] ??
-                            $bookErrors['weight_negative'] ??
-                            $bookErrors['weight_invalid'] ??
-                            '') : '';
-                        break;
-                    case 'furniture':
-                        $height = $_POST['height'];
-                        $width = $_POST['width'];
-                        $length = $_POST['length'];
-                        $dimensionErrors = $productTypeValidator->validateDimensions($height, $width, $length);
-                        $errors['heightError'] = $dimensionErrors['height'] ?? '';
-                        $errors['widthError'] = $dimensionErrors['width'] ?? '';
-                        $errors['lengthError'] = $dimensionErrors['length'] ?? '';
-
-                        break;
-                    default:
-                        // Invalid product type
-                        $errors['productTypeError'] = 'Invalid product type';
-                        break;
-                }
-
-                $response = array('success' => false, 'errors' => $errors);
-                error_log(print_r($response, true));
                 echo json_encode($response);
             }
         }

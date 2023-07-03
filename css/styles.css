@@ -1,3 +1,16 @@
 .hidden {
     display: none;
 }
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.card {
+    width: calc(25% - 2rem);
+    padding: 1rem;
+    box-sizing: border-box;
+}

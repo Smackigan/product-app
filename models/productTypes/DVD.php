@@ -40,7 +40,6 @@ class DVD extends Product
 
     public function setData($data)
     {
-        error_log('Received size: ' . $data['size']);
         parent::setData($data);
         if (isset($data['size'])) {
             $this->setSize($data['size']);

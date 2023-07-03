@@ -2,7 +2,6 @@
 
 session_start();
 
-
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +24,7 @@ session_start();
 
                     <div class="btns">
                         <a href="#" type="button"><button id="save-btn" onclick="">Save</button></a>
-                        <a href="#" type="button"><button id="cancel-btn">Cancel</button></a>
+                        <a href="#" type="button"><button id="cancel-btn" onclick="">Cancel</button></a>
                     </div>
                 </div>
             </nav>
@@ -34,68 +33,77 @@ session_start();
         <div>
 
             <div class="mb-3 d-flex">
-                <label class="form-label col-2" for="sku">SKU</label>
+                <label class="form-label col-2 my-auto" for="sku">SKU</label>
                 <input class="form-control w-25" type="text" id="sku" name="sku">
-                <div id="sku-error" class="sku-error-message"></div>
+                <div id="sku-error" class="sku-error-message ms-2 my-auto"></div>
             </div>
 
             <div class="mb-3 d-flex">
-                <label class="form-label col-2" for="name">Name</label>
+                <label class="form-label col-2 my-auto" for="name">Name</label>
                 <input class="form-control w-25" type="text" id="name" name="name">
-                <div id="name-error" class="name-error-message"></div>
+                <div id="name-error" class="name-error-message ms-2 my-auto"></div>
             </div>
 
             <div class="mb-3 d-flex">
-                <label class="form-label col-2" for="price">Price ($)</label>
+                <label class="form-label col-2 my-auto" for="price">Price ($)</label>
                 <input class="form-control w-25" type="number" id="price" name="price">
-                <div id="price-error" class="price-error-message"></div>
-
+                <div id="price-error" class="price-error-message ms-2 my-auto"></div>
             </div>
 
             <div class="mb-3 d-flex">
-                <label class="form-label col-2">Type Switcher</label>
+                <label class="form-label col-2 my-auto">Type Switcher</label>
                 <select class="form-control w-25" id="productType">
                     <option value="">Choose product type</option>
                     <option value="DVD">DVD</option>
                     <option value="book">Book</option>
                     <option value="furniture">Furniture</option>
                 </select>
-                <div id="product-error" class="product-error-message"></div>
+                <div id="product-error" class="product-error-message my-auto ms-2"></div>
             </div>
 
             <br>
 
             <div id="option_fields">
-                <div id="DVD" class="d-none mb-3 d-flex row option">
+                <div id="DVD" class="d-none row option my-auto">
                     <p>Please, provide size of DVD in MB</p>
-                    <label class="form-label col-2">Size (MB)</label>
-                    <input class="form-control w-25" type="number" id="dvd" name="dvd">
-                    <div id="size-error" class="size-error-message"></div>
+                    <div class="d-flex">
+                        <label class="form-label col-2 my-auto">Size (MB)</label>
+                        <input class="form-control w-25" type="number" id="dvd" name="dvd">
+                        <div id="size-error" class="size-error-message ms-2 my-auto"></div>
+                    </div>
                 </div>
 
-                <div id="book" class="d-none mb-3 d-flex row option">
+                <div id="book" class="d-none mb-3 d-flex row option my-auto">
                     <p>Please, provide weigth of the book</p>
-                    <label class="form-label col-2">Weight (KG)</label>
-                    <input class="form-control w-25" name="weight" type="number" id="weight">
-                    <div id="weight-error" class="weight-error-message"></div>
+                    <div class="d-flex">
+                        <label class="form-label col-2 my-auto">Weight (KG)</label>
+                        <input class="form-control w-25" name="weight" type="number" id="weight">
+                        <div id="weight-error" class="weight-error-message ms-2 my-auto"></div>
+                    </div>
                 </div>
 
                 <div id="furniture" class="d-none option">
-                    <p>Please provide dimensions in HxWxL format</p>
+                    <p>Please provide dimensions in HxWxL format:</p>
                     <div class="mb-3 d-flex row">
-                        <label class="form-label col-2">Height (CM)</label>
-                        <input type="number" name="height" class="form-control w-25" id="height">
-                        <div id="height-error" class="height-error-message"></div>
+                        <div class="d-flex">
+                            <label class="form-label col-2 my-auto">Height (CM)</label>
+                            <input type="number" name="height" class="form-control w-25" id="height">
+                            <div id="height-error" class="height-error-message ms-2 my-auto"></div>
+                        </div>
                     </div>
                     <div class="mb-3 d-flex row">
-                        <label class="form-label col-2">Width (CM)</label>
-                        <input type="number" name="width" class="form-control w-25" id="width">
-                        <div id="width-error" class="width-error-message"></div>
+                        <div class="d-flex">
+                            <label class="form-label col-2 my-auto">Width (CM)</label>
+                            <input type="number" name="width" class="form-control w-25" id="width">
+                            <div id="width-error" class="width-error-message ms-2 my-auto"></div>
+                        </div>
                     </div>
                     <div class="mb-3 d-flex row">
-                        <label class="form-label col-2">Length (CM)</label>
-                        <input type="number" name="length" class="form-control w-25" id="length">
-                        <div id="length-error" class="length-error-message"></div>
+                        <div class="d-flex">
+                            <label class="form-label col-2 my-auto">Length (CM)</label>
+                            <input type="number" name="length" class="form-control w-25" id="length">
+                            <div id="length-error" class="length-error-message ms-2 my-auto"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -107,7 +115,6 @@ session_start();
 
     <?php include_once "../components/footer.php"; ?>
     <script src="../js/script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 
