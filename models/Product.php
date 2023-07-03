@@ -65,3 +65,11 @@ abstract class Product
     }
 
 }
+
+class GetProducts extends Product 
+{
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+}

@@ -1,8 +1,10 @@
 <?php
 
+use Models\GetProducts;
 use Models\Product;
 
 require_once('../database/DB.php');
+require_once('Product.php');
 
 // opertions with DB
 class ProductsTable
@@ -35,10 +37,6 @@ class ProductsTable
         mysqli_stmt_close($stmt);
     }
 
-    // public function addProduct(product){
-    //     // add product to table
-    // }
-
     // Chech for Unique SKU
     public function isSkuUnique($sku)
     {
@@ -52,6 +50,26 @@ class ProductsTable
         mysqli_stmt_close($stmt);
 
         return $count === 0; // Return true if unique
+    }
+
+    public function getAllProducts()
+    {
+        $sql = 'SELECT * FROM products';
+        $stmt = $this->conn->getConnection($sql);
+
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        $products = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $product = new GetProducts($row['sku'], $row['name'], $row['price']);
+            $product->setValue($row['value']);
+            $products[] = $product;
+        }
+        mysqli_stmt_close($stmt);
+
+        return $products;
     }
 
     // public function getProducts(){
