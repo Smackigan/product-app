@@ -10,6 +10,7 @@ session_start();
 require_once('../core/Controller.php');
 require_once('../models/Validator.php');
 require_once('../models/ProductsTable.php');
+require_once('../models/Product.php');
 require_once('../models/productTypes/DVD.php');
 require_once('../models/productTypes/Book.php');
 require_once('../models/productTypes/Furniture.php');
@@ -21,66 +22,17 @@ class ProductController extends Controller
     {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $sku = trim($_POST['sku']);
-            $name = trim($_POST['name']);
-            $price = trim($_POST['price']);
+            header('Content-type: application/json');
             $productType = $_POST['productType'];
             $data = $_POST;
 
-            $allErrors = [];
-            // Validate
-            $validator = new Validator();
-            $allErrors = array_merge($allErrors, $validator->validateUniqueSku($sku));
-            $allErrors = array_merge($allErrors, $validator->validateSku($sku));
-            $allErrors = array_merge($allErrors, $validator->validateName($name));
-            $allErrors = array_merge($allErrors, $validator->validatePrice($price));
-
-            $productTypeValidator = new ProductTypeValidator();
-
-            // Validation and errors based on the selected product type
-            switch ($productType) {
-                case 'DVD':
-                    $size = $_POST['size'];
-                    $allErrors = array_merge($allErrors, $productTypeValidator->validateSize($size));
-                    $errors['dvdError'] = $sizeErrors['size'] ?? '';
-                    break;
-                case 'book':
-                    $weight = $_POST['weight'];
-                    $allErrors = array_merge($allErrors, $productTypeValidator->validateWeight($weight));
-                    $errors['bookError'] = $weightErrors['weight'] ?? '';
-                    break;
-                case 'furniture':
-                    $height = $_POST['height'];
-                    $width = $_POST['width'];
-                    $length = $_POST['length'];
-                    $allErrors = array_merge($allErrors, $productTypeValidator->validateDimensions($height, $width, $length));
-                    $errors['heightError'] = $dimensionErrors['height'] ?? '';
-                    $errors['widthError'] = $dimensionErrors['width'] ?? '';
-                    $errors['lengthError'] = $dimensionErrors['length'] ?? '';
-                    break;
-                default:
-                    // Invalid product type
-                    $errors['productTypeError'] = 'Invalid product type'; // CHECK!
-                    break;
-            }
+            $allErrors = Validator::validate($data);            
 
             // print_r($allErrors);
-            header('Content-type: application/json');
 
             if (empty($allErrors)) {
 
-                if ($productType === 'DVD') {
-                    $product = new DVD($sku, $name, $price);
-                } elseif ($productType === 'book') {
-                    $product = new Book($sku, $name, $price);
-                } elseif ($productType === 'furniture') {
-                    $product = new Furniture($sku, $name, $price);
-                }
-
-                if ($product) {
-                    $product->setData($data);
-                }
+                $product = ProductFactory::Create($productType, $data);
 
                 // Insert data to the DB
                 $productsTable = new ProductsTable();
@@ -102,6 +54,20 @@ class ProductController extends Controller
                 echo json_encode($response);
             }
         }
+    }
+}
+
+class ProductFactory {
+    public static function Create($productType, $data){
+        $product = NULL;
+        if ($productType === 'DVD') {
+            $product = new DVD($data);
+        } elseif ($productType === 'book') {
+            $product = new Book($data);
+        } elseif ($productType === 'furniture') {
+            $product = new Furniture($data);
+        }
+        return $product;
     }
 }
 

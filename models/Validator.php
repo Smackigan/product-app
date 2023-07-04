@@ -1,15 +1,26 @@
 <?php
 
+
 require_once('../database/DB.php');
 
 class Validator
 {
-    public $uniqueSkuError;
-    public $skuErrors;
-    public $nameErrors;
-    public $priceErrors;
 
-    public function validateUniqueSku($sku)
+    public static function validate($data){
+        $allErrors = [];
+        $sku = trim($data['sku']);
+        $name = trim($data['name']);
+        $price = trim($data['price']);
+        $productType = $data['productType'];
+        $allErrors = array_merge($allErrors, Validator::validateUniqueSku($sku));
+        $allErrors = array_merge($allErrors, Validator::validateSku($sku));
+        $allErrors = array_merge($allErrors, Validator::validateName($name));
+        $allErrors = array_merge($allErrors, Validator::validatePrice($price));
+        $allErrors = array_merge($allErrors, Validator::validateProductData($productType, $data));
+        return $allErrors;
+    }
+
+    public static function validateUniqueSku($sku)
     {
         $uniqueSkuError = [];
 
@@ -23,7 +34,7 @@ class Validator
         return $uniqueSkuError;
     }
 
-    public function validateSku($sku)
+    public static function validateSku($sku)
     {
         $skuErrors = [];
 
@@ -36,7 +47,7 @@ class Validator
         return $skuErrors;
     }
 
-    public function validateName($name)
+    public static function validateName($name)
     {
         $nameErrors = [];
 
@@ -50,7 +61,7 @@ class Validator
         return $nameErrors;
     }
 
-    public function validatePrice($price)
+    public static function validatePrice($price)
     {
         $priceErrors = [];
 
@@ -64,6 +75,36 @@ class Validator
             $priceErrors['price'] = 'Price is too big';
         }
         return $priceErrors;
+    }
+
+    public static function validateProductData($productType, $data)
+    {
+        $allErrors = [];
+        $productTypeValidator = new ProductTypeValidator();
+
+        // Validation and errors based on the selected product type
+        switch ($productType) {
+            case 'DVD':
+                $size = $_POST['size'];
+                $allErrors = array_merge($allErrors, $productTypeValidator->validateSize($size));
+                break;
+            case 'book':
+                $weight = $_POST['weight'];
+                $allErrors = array_merge($allErrors, $productTypeValidator->validateWeight($weight));
+                break;
+            case 'furniture':
+                $height = $_POST['height'];
+                $width = $_POST['width'];
+                $length = $_POST['length'];
+                $allErrors = array_merge($allErrors, $productTypeValidator->validateDimensions($height, $width, $length));
+                break;
+            default:
+                // Invalid product type
+                $errors['productTypeError'] = 'Invalid product type'; // CHECK!
+                $allErrors = array_merge($allErrors, $errors);
+                break;
+        }
+        return $allErrors;
     }
 }
 

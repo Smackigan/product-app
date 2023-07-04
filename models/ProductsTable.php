@@ -63,9 +63,8 @@ class ProductsTable
         $products = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
-            $product = new GetProducts($row['sku'], $row['name'], $row['price']);
-            $product->setValue($row['value']);
-            $products[] = $product;
+           $product = new GetProducts($row['sku'], $row['name'], $row['price'], $row['value']);
+           $products[] = $product;
         }
         mysqli_stmt_close($stmt);
 

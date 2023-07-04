@@ -9,12 +9,12 @@ abstract class Product
     private $price;
     public $value;
 
-    public function __construct($sku, $name, $price)
+    public function __construct($sku, $name, $price, $value)
     {
-        $this->sku = $sku;
-        $this->name = $name;
-        $this->price = $price;
-        $this->value = '';
+        $this->setSku($sku);
+        $this->setName($name);
+        $this->setPrice($price);
+        $this->setValue($value);
     }
 
     public function getSku()
@@ -68,6 +68,9 @@ abstract class Product
 
 class GetProducts extends Product 
 {
+
+
+
     public function setValue($value)
     {
         $this->value = $value;
