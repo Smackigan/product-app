@@ -26,7 +26,7 @@ class ProductController extends Controller
             $productType = $_POST['productType'];
             $data = $_POST;
 
-            $allErrors = Validator::validate($data);            
+            $allErrors = Validator::validate($data);
 
             // print_r($allErrors);
 
@@ -44,7 +44,6 @@ class ProductController extends Controller
                 error_log(json_encode($response));
 
                 echo json_encode($response);
-
             } else {
 
                 $response = array('success' => false, 'errors' => $allErrors);
@@ -55,10 +54,14 @@ class ProductController extends Controller
             }
         }
     }
+
+
 }
 
-class ProductFactory {
-    public static function Create($productType, $data){
+class ProductFactory
+{
+    public static function Create($productType, $data)
+    {
         $product = NULL;
         if ($productType === 'DVD') {
             $product = new DVD($data);

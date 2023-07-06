@@ -30,7 +30,7 @@ class ProductsTable
         $sql = "INSERT INTO products (sku, name, price, value) VALUES (?, ?, ?, ?)";
         $stmt = $db->getConnection($sql);
 
-        mysqli_stmt_bind_param($stmt, "ssis", $sku, $name, $price, $value);
+        mysqli_stmt_bind_param($stmt, "ssds", $sku, $name, $price, $value);
         mysqli_stmt_execute($stmt);
 
         // Close the prepared statement
@@ -52,6 +52,7 @@ class ProductsTable
         return $count === 0; // Return true if unique
     }
 
+    // Get all products from DB
     public function getAllProducts()
     {
         $sql = 'SELECT * FROM products';
@@ -63,7 +64,7 @@ class ProductsTable
         $products = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
-           $product = new GetProducts($row['sku'], $row['name'], $row['price'], $row['value']);
+           $product = new GetProducts( $row['id'], $row['sku'], $row['name'], $row['price'], $row['value']);
            $products[] = $product;
         }
         mysqli_stmt_close($stmt);
@@ -71,12 +72,19 @@ class ProductsTable
         return $products;
     }
 
-    // public function getProducts(){
-    // read all from DB
+    // Delete all products from DB
+    public function deleteProducts($selectedIDs)
+    {
+        $ids = implode(",", $selectedIDs);
+        $sql = "DELETE FROM products WHERE id IN ($ids)";
+        $stmt = $this->conn->getConnection($sql);
 
-    // create Product for each row
-
-    // return array[Product]
-
+        if ($stmt) {
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        } else {
+            
+        }
+    }
 
 }

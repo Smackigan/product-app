@@ -230,8 +230,5 @@ saveBtn.addEventListener('click', function (e) {
   xhr.send(formData);
 });
 
-// MASS DELETE function
-const deleteBtn = document.getElementById('delete-product-btn');
-deleteBtn.addEventListener('click', function() {
 
-})
+

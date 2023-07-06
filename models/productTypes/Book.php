@@ -6,7 +6,7 @@ use Models\Product;
 
 require_once('../models/Product.php');
 
-class Book extends Product 
+class Book extends Product
 {
     private $weight;
 
@@ -39,7 +39,7 @@ class Book extends Product
     public function setData($data)
     {
         error_log('Received weight: ' . $data['weight']);
-parent::setData($data);
+        parent::setData($data);
         if (isset($data['weight'])) {
             $this->setWeight($data['weight']);
             $value = $this->calculateValue();

@@ -1,6 +1,5 @@
 <?php
 
-
 require_once('../database/DB.php');
 
 class Validator
@@ -68,7 +67,7 @@ class Validator
         if (empty($price)) {
             $priceErrors['price'] = 'Please provide the price';
         } elseif (!is_numeric($price)) {
-            $priceErrors['price'] = 'Pleas provide a valid numeric price';
+            $priceErrors['price'] = 'Please provide a valid numeric price';
         } elseif ($price <= 0) {
             $priceErrors['price'] = 'Price must be greater than zero';
         } elseif ($price > 999999999999.99) {
@@ -100,7 +99,7 @@ class Validator
                 break;
             default:
                 // Invalid product type
-                $errors['productTypeError'] = 'Invalid product type'; // CHECK!
+                $errors['productTypeError'] = 'Invalid product type'; 
                 $allErrors = array_merge($allErrors, $errors);
                 break;
         }
@@ -110,29 +109,6 @@ class Validator
 
 class ProductTypeValidator
 {
-
-    // public function validateProduct($data)
-    // {
-    //     $productType = $data['productType'];
-    //     $productErrors = [];
-
-    //     if ($productType === 'DVD') {
-    //         $size = $data['dvd'];
-    //         $sizeErrors = $this->validateSize($size);
-    //         $productErrors = array_merge($productErrors, $sizeErrors);
-    //     } elseif ($productType === 'book') {
-    //         $weight = $data['weight'];
-    //         $weightErrors = $this->validateWeight($weight);
-    //         $productErrors = array_merge($productErrors, $weightErrors);
-    //     } elseif ($productType === 'furniture') {
-    //         $height = $data['height'];
-    //         $width = $data['width'];
-    //         $length = $data['length'];
-    //         $dimensionErrors = $this->validateDimensions($height, $width, $length);
-    //         $productErrors = array_merge($productErrors, $dimensionErrors);
-    //     }
-    //     return $productErrors;
-    // }
 
     public function validateSize($size)
     {

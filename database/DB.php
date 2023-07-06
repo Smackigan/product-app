@@ -8,6 +8,7 @@ class DB
 
     public function __construct()
     {
+        error_log("connecting to db");
         $this->conn = $this->connect();
     }
 

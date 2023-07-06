@@ -21,36 +21,32 @@ $products = $productsTable->getAllProducts();
 </head>
 
 <body>
+<header>
+<?php include_once "../components/header.php"; ?>
+</header>
 
 
-
-    <div class="d-flex justify-content-between my-4 mx-4 px-4">
-        <h2 class="px-4 my-auto">Product List</h2>
-
-        <div class="btns px-4 my-auto">
-            <a href="add_product.view.php" type="button"><button id="add-product-btn">ADD</button></a>
-            <button type="submit" id="delete-product-btn">MASS DELETE</button>
-        </div>
-    </div>
-    <hr>
-    <div class="">
+    <div >
         <!-- Display the list of products from the databas -->
 
-        <form action="../Controller/deleteProductController.php" method="POST" id="product-list-form">
+        <form action="/controllers/DeleteProductsController.php" method="POST" id="product-list-form">
             <?php if (!empty($products)) : ?>
                 <div class="row px-5">
                     <?php foreach ($products as $product) : ?>
                         <div class="col-md-3 p-4 mb-4">
                             <div class="border border-2">
-                                <div class="card-body p-4">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" class="delete-checkbox">
+                                <div class="card-body p-4 pb-5">
+                                    <div class="form-check-inline">
+                                        <label class="form-check-inline">
+                                            <input class="delete-checkbox form-check-input" form="delete-form" type="checkbox" id="checkbox" name="<?php echo $product->getId(); ?>">
+                                            <?php $id = $product->getId(); ?>
+                                        </label>
                                     </div>
-                                    <div class="text-center lh-1">
-                                        <p><?php echo $product->getSku(); ?></p>
-                                        <p><?php echo $product->getName(); ?></p>
-                                        <p><?php echo $product->getPrice(); ?></p>
-                                        <p><?php echo $product->getValue(); ?></p>
+                                    <div class="text-center lh-md">
+                                        <p class="card-title"><?php echo $product->getSku(); ?></p>
+                                        <p class="card-title"><?php echo $product->getName(); ?></p>
+                                        <p class="card-title"><?php echo $product->getPrice(); ?></p>
+                                        <p class="card-title"><?php echo $product->getValue(); ?></p>
                                     </div>
                                 </div>
 
@@ -62,8 +58,8 @@ $products = $productsTable->getAllProducts();
         </form>
     </div>
 
-
     <?php include_once "../components/footer.php"; ?>
+    <script src="../js/index.js"></script>
 </body>
 
 </html>

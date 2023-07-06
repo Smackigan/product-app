@@ -15,22 +15,20 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 
-<body>
-    <form action="/controllers/ProductController.php" method="POST" id="product_form" class="ms-3">
+<body class="">
+    <form action="/controllers/ProductController.php" method="POST" id="product_form" >
         <header>
-            <nav>
-                <div class="d-flex justify-content-between my-4 mx-4">
-                    <h2 class="">Product Add</h2>
 
-                    <div class="btns">
+                <div class="d-flex justify-content-between my-5 px-4 border-bottom border-1 border-secondary">
+                    <h2 class="px-4 mb-4">Product Add</h2>
+
+                    <div class="btns px-4">
                         <a href="#" type="button"><button id="save-btn" onclick="">Save</button></a>
                         <a href="#" type="button"><button id="cancel-btn" onclick="">Cancel</button></a>
                     </div>
                 </div>
-            </nav>
         </header>
-        <hr>
-        <div>
+        <div class="ms-5">
 
             <div class="mb-3 d-flex">
                 <label class="form-label col-2 my-auto" for="sku">SKU</label>
@@ -109,12 +107,11 @@ session_start();
 
             </div>
 
-
     </form>
     </div>
 
     <?php include_once "../components/footer.php"; ?>
-    <script src="../js/script.js"></script>
+    <script src="../js/addProduct.js"></script>
 </body>
 
 
