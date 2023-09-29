@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config/config.php';
 
 class DB
 {
@@ -29,13 +29,13 @@ class DB
         if (!$this->conn) {
             die('No DB connection');
         }
-    
+
         $stmt = mysqli_prepare($this->conn, $sql);
-    
+
         if (!$stmt) {
             die('Failed to prepare stmt: ' . mysqli_error($this->conn));
         }
-        
+
         return $stmt;
     }
 }

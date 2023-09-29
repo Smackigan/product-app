@@ -1,6 +1,6 @@
 <?php
 
-require_once '../database/DB.php';
+require_once './database/DB.php';
 
 $db = new DB(); 
 
@@ -12,4 +12,3 @@ if ($db->getConnection()) {
 } else {
     echo 'Database connection failed!';
 }
-?>

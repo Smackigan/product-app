@@ -3,7 +3,7 @@
 use Models\GetProducts;
 use Models\Product;
 
-require_once('../database/DB.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/database/DB.php');
 require_once('Product.php');
 
 // opertions with DB
@@ -64,8 +64,8 @@ class ProductsTable
         $products = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
-           $product = new GetProducts( $row['id'], $row['sku'], $row['name'], $row['price'], $row['value']);
-           $products[] = $product;
+            $product = new GetProducts($row['id'], $row['sku'], $row['name'], $row['price'], $row['value']);
+            $products[] = $product;
         }
         mysqli_stmt_close($stmt);
 
@@ -83,8 +83,6 @@ class ProductsTable
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
         } else {
-            
         }
     }
-
 }

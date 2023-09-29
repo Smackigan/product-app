@@ -11,22 +11,23 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/styles.css" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 
 <body class="">
-    <form action="/controllers/ProductController.php" method="POST" id="product_form" >
+    <form action="/controllers/ProductController.php" method="POST" id="product_form">
         <header>
 
-                <div class="d-flex justify-content-between my-5 px-4 border-bottom border-1 border-secondary">
-                    <h2 class="px-4 mb-4">Product Add</h2>
+            <div class="d-flex justify-content-between my-5 px-4 border-bottom border-1 border-secondary">
+                <h2 class="px-4 mb-4">Product Add</h2>
 
-                    <div class="btns px-4">
-                        <a href="#" type="button"><button id="save-btn" onclick="">Save</button></a>
-                        <a href="#" type="button"><button id="cancel-btn" onclick="">Cancel</button></a>
-                    </div>
+                <div class="btns px-4">
+                    <a href="#" type="button"><button id="save-btn" onclick="">Save</button></a>
+                    <a href="#" type="button"><button id="cancel-btn" onclick="">Cancel</button></a>
                 </div>
+            </div>
         </header>
         <div class="ms-5">
 
@@ -66,7 +67,7 @@ session_start();
                     <p>Please, provide size of DVD in MB</p>
                     <div class="d-flex">
                         <label class="form-label col-2 my-auto">Size (MB)</label>
-                        <input class="form-control w-25" type="number" id="dvd" name="dvd">
+                        <input class="form-control w-25" type="number" id="size" name="size">
                         <div id="size-error" class="size-error-message ms-2 my-auto"></div>
                     </div>
                 </div>
@@ -110,8 +111,8 @@ session_start();
     </form>
     </div>
 
-    <?php include_once "../components/footer.php"; ?>
-    <script src="../js/addProduct.js"></script>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php"; ?>
+    <script src="../js/addProduct.js" type="application/javascript"></script>
 </body>
 
 

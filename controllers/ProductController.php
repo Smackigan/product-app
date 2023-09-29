@@ -54,8 +54,6 @@ class ProductController extends Controller
             }
         }
     }
-
-
 }
 
 class ProductFactory
