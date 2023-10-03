@@ -28,7 +28,7 @@ $products = $productsTable->getAllProducts();
 
 
     <div>
-        <!-- Display the list of products from the databas -->
+        <!-- Display the list of products from the database -->
 
         <form action="/controllers/DeleteProductsController.php" method="POST" id="product-list-form">
             <?php if (!empty($products)) : ?>

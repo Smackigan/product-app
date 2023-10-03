@@ -5,7 +5,8 @@ require_once('../database/DB.php');
 class Validator
 {
 
-    public static function validate($data){
+    public static function validate($data)
+    {
         $allErrors = [];
         $sku = trim($data['sku']);
         $name = trim($data['name']);
@@ -52,7 +53,7 @@ class Validator
 
         if (empty($name)) {
             $nameErrors['name'] = 'Please provide the name';
-        } elseif (strlen($name) > 10) {
+        } elseif (strlen($name) > 30) {
             $nameErrors['name'] = 'Product name is too long';
         } elseif (!is_string($name)) {
             $nameErrors['name'] = 'Please provide the data of indicated type';
@@ -99,7 +100,7 @@ class Validator
                 break;
             default:
                 // Invalid product type
-                $errors['productTypeError'] = 'Invalid product type'; 
+                $errors['productTypeError'] = 'Invalid product type';
                 $allErrors = array_merge($allErrors, $errors);
                 break;
         }
